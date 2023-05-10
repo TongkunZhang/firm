@@ -23,7 +23,7 @@ Intel(R) RDT hardware support
 The ideal setting is "Intel(R) Xeon(R) Scalable Processors" or "Intel(R) Xeon(R) 2nd Generation Scalable Processors".
 Check whether the machines in the cluster and the kernel version meet the requirements by executing:
 
-```
+```bash
 lscpu | grep cat
 lscpu | grep mba
 uname -a
@@ -43,7 +43,7 @@ Prerequisite: `pip3 install -r requirements.txt`
 
 On each node, install anomaly injector:
 
-```
+```bash
 cd anomaly-injector
 make
 cd sysbench
@@ -55,25 +55,26 @@ make install
 
 Deploy tracing, metrics exporting, collection agents:
 
-```
+```bash
 export NAMESPACE='monitoring'
 kubectl create -f manifests/setup
 kubectl create namespace observability
-kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crds/jaegertracing.io_jaegers_crd.yaml
-kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/service_account.yaml
-kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role.yaml
-kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role_binding.yaml
-kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/operator.yaml
-kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role.yaml
-kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role_binding.yaml
+# kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crds/jaegertracing.io_jaegers_crd.yaml
+# kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/service_account.yaml
+# kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role.yaml
+# kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role_binding.yaml
+# kubectl create -n observability -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/operator.yaml
+# kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role.yaml
+# kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/cluster_role_binding.yaml
+kubectl create -f https://github.com/jaegertracing/jaeger-operator/releases/download/v1.45.0/jaeger-operator.yaml -n observability
 kubectl create -f manifests/
 ```
 
 Deploy graph database and pipeline for metrics storage (this requires docker-compose to be installed and enabled on the master node):
 
-```
+```bash
 cd trace-grapher
-docker-compose run stack-builder
+docker compose run stack-builder
 # now a shell pops as root in the project directory of the stack-builder container
 cd deploy-trace-grapher
 make prepare-trace-grapher-namespace
@@ -82,7 +83,7 @@ make install-components
 
 Install deployment module:
 
-```
+```bash
 cd scripts
 make all
 cd python-cat-mba
@@ -138,7 +139,7 @@ Make sure all pods in all namespaces are running without error or being evicted.
 
 Configure the machine IP address (external or internal, or hostname), username, password (you can keep password empty if password-less login is set up in the cluster), as well as the repo path (should be the same location) in `firm/anomaly-injector/injector.py`. For example:
 
-```
+```python
 nodes = [
         '10.1.0.11', '10.1.0.12', '10.1.0.13', '10.1.0.14',
         '10.1.0.21', '10.1.0.22', '10.1.0.23', '10.1.0.24',
@@ -152,7 +153,7 @@ If usernames and passwords are different on different machines, they should be r
 
 Then on each node, prepare files for generating disk I/O contention:
 
-```
+```bash
 cd anomaly-injector
 mkdir test-files
 cd test-files
@@ -180,7 +181,7 @@ To run workload generation: `./wrk -D exp -t 8 -c 100 -R 1600 -d 1h -L -s ./scri
 
 Generate training dataset:
 
-```
+```bash
 python3 metrics/analysis/cpa-training-labels.py &
 python3 metrics/analysis/cpa-training-features.py &
 ```
@@ -197,7 +198,7 @@ After training, checkpoints of the model will be automatically saved in the same
 
 Start a redis server:
 
-```
+```bash
 sudo systemctl start redis
 
 # Install if needed: sudo apt install redis-server
@@ -205,7 +206,7 @@ sudo systemctl start redis
 
 Run metrics collector and store metrics in Redis:
 
-```
+```bash
 python3 metrics/collector/collector.py
 
 # Or, run with gunicore:
@@ -219,7 +220,7 @@ STATS_LEN=1440
 
 Run sender which polls cAdvisor via its REST API:
 
-```
+```bash
 # Replace /path/to/repository in metrics/sender/cron/crontab
 # Replace the IP address of the machine running cAdvisor and collector
 # Examples of environment variable required:
@@ -237,7 +238,7 @@ Start training (on master node): `python3 ddpg/main.py`.
 
 On each node, clean up files used for generating disk I/O bandwidth contention.
 
-```
+```bash
 cd anomaly-injector/test-files
 sysbench fileio --file-total-size=150G cleanup
 ```
