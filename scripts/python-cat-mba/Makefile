@@ -36,7 +36,7 @@
 env:
 	@bash -c "virtualenv -p python3 env"
 	@bash -c "source env/bin/activate && \
-		make -C ../../lib/python install; \
+		make -C ../../third-party/intel-cmt-cat/lib/python install; \
 		deactivate"
 
 clean:
