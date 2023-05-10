@@ -34,7 +34,7 @@
 .PHONY: clean
 
 env:
-	@bash -c "python3 -m venv env"
+	@bash -c "virtualenv -p python3 env"
 	@bash -c "source env/bin/activate && \
 		make -C ../../lib/python install; \
 		deactivate"
