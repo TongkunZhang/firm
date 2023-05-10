@@ -104,6 +104,10 @@ Check that all services and pods are up and running.
 - luarocks (`sudo apt install luarocks`)
 - luasocket (`sudo luarocks install luasocket`)
 - Make sure the following ports are available on each node: 8080, 8081, 16686
+```bash
+sudo apt install libssl-dev libz-dev luarocks 
+sudo luarocks install luasocket
+```
 
 #### Configure the DNS Resolver
 
@@ -119,9 +123,9 @@ kubectl get service -n kube-system
 
 Change the `/root/firm/` to `<path-of-repo>` in `media-frontend.yaml` and `nginx-thrift.yaml` under the `<path-of-repo>/benchmarks/1-social-network/k8s-yaml` directory.
 
-Run `kubectl apply -f <path-of-repo>/benchmarks/1-social-network/k8s-yaml/social-network-ns.yaml` to create the namespace.
+Run `kubectl apply -f benchmarks/1-social-network/k8s-yaml/social-network-ns.yaml` to create the namespace.
 
-Run `kubectl apply -f <path-of-repo>/benchmarks/1-social-network/k8s-yaml/` and wait `kubectl -n social-network get pod` to show all pods with status Running.
+Run `kubectl apply -f benchmarks/1-social-network/k8s-yaml/` and wait `kubectl -n social-network get pod` to show all pods with status Running.
 
 #### Setup Services
 
