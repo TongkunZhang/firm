@@ -5,14 +5,11 @@ import time
 
 # configure node IP addresses, username, network dev, and location of the performance anomaly injector here
 nodes = [
-        '10.1.0.11', '10.1.0.12', '10.1.0.13', '10.1.0.14',
-        '10.1.0.21', '10.1.0.22', '10.1.0.23', '10.1.0.24',
-        '10.1.0.200', '10.1.0.201',
-        '10.1.0.203', '10.1.0.204', '10.1.0.205', '10.1.0.206'
+        '192.168.41.250', '192.168.41.109', '192.168.41.51'
 ]
 username = 'ubuntu'
-password = ''
-location = '~/firm/src/anomaly-injector/'
+password = 'tongkun'
+location = '~/firm/anomaly-injector/'
 threads = 1
 out = subprocess.Popen(['nproc'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 stdout, stderr = out.communicate()
