@@ -18,7 +18,7 @@ services:
         source: /var/run/docker.sock
         target: /var/run/docker.sock
       - type: bind
-        source: '${HOME}/.kube/config'
+        source: '/home/ubuntu/.kube/config'
         target: /root/.kube/config
       - type: bind
         source: '/home/ubuntu/firm/trace-grapher'
