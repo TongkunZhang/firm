@@ -24,4 +24,4 @@ services:
         source: '${PWD}'
         target: '${PWD}'
     working_dir: '${PWD}'
-    command: sh -l
+    command: sh -c "cd deploy-trace-grapher && make prepare-trace-grapher-namespace && make install-components"
