@@ -21,7 +21,7 @@ services:
         source: '${HOME}/.kube/config'
         target: /root/.kube/config
       - type: bind
-        source: '${PWD}'
-        target: '${PWD}'
-    working_dir: '${PWD}'
+        source: '/home/ubuntu/firm/trace-grapher'
+        target: '/home/ubuntu/firm/trace-grapher'
+    working_dir: '/home/ubuntu/firm/trace-grapher'
     command: sh -c "cd deploy-trace-grapher && make prepare-trace-grapher-namespace && make install-components"
