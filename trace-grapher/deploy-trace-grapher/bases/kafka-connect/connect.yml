@@ -1,5 +1,5 @@
 apiVersion: kafka.strimzi.io/v1beta1
-kind: KafkaConnect
+kind: kafkaconnect
 metadata:
   name: kafka-connect
   labels:
