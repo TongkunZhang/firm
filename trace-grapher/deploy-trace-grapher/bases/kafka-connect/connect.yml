@@ -1,10 +1,24 @@
-apiVersion: kafka.strimzi.io/v1beta1
-kind: kafkaconnect
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-prometheus-jmx-exporter-config-map
+data:
+  metrics-config.yml: |
+    lowercaseOutputName: true
+    lowercaseOutputLabelNames: true
+    rules:
+    - pattern : "kafka.connect<type=connect-worker-metrics>([^:]+):"
+      name: "kafka_connect_connect_worker_metrics_$1"
+    - pattern : "kafka.connect<type=connect-metrics, client-id=([^:]+)><>([^:]+)"
+      name: "kafka_connect_connect_metrics_$1_$2"
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaConnect
 metadata:
   name: kafka-connect
   labels:
     monitoredBy: prometheus
-
 spec:
   image: "razalgethi/trace-grapher-strimzi-kafka-connect"
   version: 2.4.0
@@ -33,11 +47,8 @@ spec:
     internal.value.converter: "org.apache.kafka.connect.json.JsonConverter"
   logging:
     type: inline
-  metrics:
-    lowercaseOutputName: true
-    lowercaseOutputLabelNames: true
-    rules:
-    - pattern : "kafka.connect<type=connect-worker-metrics>([^:]+):"
-      name: "kafka_connect_connect_worker_metrics_$1"
-    - pattern : "kafka.connect<type=connect-metrics, client-id=([^:]+)><>([^:]+)"
-      name: "kafka_connect_connect_metrics_$1_$2"
+  metricsConfig:
+    type: jmxPrometheusExporter
+    valueFrom:
+      configMapKeyRef:
+        name: my-prometheus-jmx-exporter-config-map
