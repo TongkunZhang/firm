@@ -13,7 +13,7 @@ nodes = [
 ]
 username = 'ubuntu'
 password = ''
-location = '~/firm/src/anomaly-injector/'
+location = '~/firm/anomaly-injector/'
 
 train_file_name = 'svm_train.h5'
 test_file_name = 'svm_test.h5'
