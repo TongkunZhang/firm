@@ -14,7 +14,7 @@ threads = 1
 out = subprocess.Popen(['nproc'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 stdout, stderr = out.communicate()
 threads = int(stdout)
-dev = 'ib0' # eth0
+dev = 'ens3' # eth0
 
 disk = 1   # file size: Gb
 rate = 1024  # bandwidth limit: kbit
