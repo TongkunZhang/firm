@@ -25,7 +25,7 @@ NUM_WORKERS = 32
 # CADVISOR_API = '10.2.2.1'
 DATABASE = 'localhost:7687'
 USERNAME = 'neo4j'
-PASSWORD = 'GorgeousPassword'
+PASSWORD = 'password'
 
 PATH_TO_CONTAINER_INFO = 'pods.csv'
 

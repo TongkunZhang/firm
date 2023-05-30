@@ -17,7 +17,7 @@ def cpu(id, value, period=100000):
     os.system('echo %s | sudo -S python %s' % (SUDO_PASSWORD, current_script))
     
     logging.info('cpu - id: ' + id + ' - delta: ' + value)
-    path = '/sys/fs/cgroup/cpu/kubepods.slice/kubepods-besteffort.slice/kubepods-pod' + id + '.slice/cpu.cfs_quota_us'
+    path = '/sys/fs/cgroup/cpu/kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod' + id + '.slice/cpu.cfs_quota_us'
     f = open(path,"r")
     original = int(f.read())
     curr_value = original + int(value)
@@ -52,7 +52,7 @@ def network(id, value):
     os.system('echo %s | sudo -S python %s' % (SUDO_PASSWORD, current_script))
 
     logging.info('network - id: ' + id + ' - delta: ' + value)
-    path = '/sys/fs/cgroup/net_cls/kubepods.slice/kubepods-besteffort.slice/kubepods-pod' + id + '.slice/net_cls.classid'
+    path = '/sys/fs/cgroup/net_cls/kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod' + id + '.slice/net_cls.classid'
     # f = open(path,"r")
     # original = int(f.read())
     with open(path, "r+") as f:
@@ -69,7 +69,7 @@ def blkio(id, value):
 
     # path = '/sys/fs/cgroup/blkio/kubepods/guaranteed/pod' + id + '/blkio.throttle.read_bps_device'
     # path = '/sys/fs/cgroup/blkio/kubepods/guaranteed/pod' + id + '/blkio.throttle.write_bps_device'
-    path = '/sys/fs/cgroup/blkio/kubepods.slice/kubepods-besteffort.slice/kubepods-pod' + id + '.slice/blkio.weight'
+    path = '/sys/fs/cgroup/blkio/kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod' + id + '.slice/blkio.weight'
     with open(path, "r+") as f:
         data = f.read()
         f.seek(0)

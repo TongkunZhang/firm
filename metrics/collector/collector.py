@@ -22,7 +22,7 @@ import time
 import json
 import logging
 
-REDIS_HOST=os.getenv('COLLECTOR_REDIS_HOST', 'redis.local')
+REDIS_HOST=os.getenv('COLLECTOR_REDIS_HOST', 'localhost')
 REDIS_PORT=int(os.getenv('COLLECTOR_REDIS_PORT', '6379'))
 PORT=int(os.getenv('COLLECTOR_PORT', '8787'))
 STATS_LEN=int(os.getenv('STATS_LEN', '1440'))
